@@ -1,0 +1,834 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@300;400;500&display=swap');
+
+:root {
+    --primary-navy: #003366;
+    --secondary-cerulean: #00A9E0;
+    --accent-teal: #00B5B5;
+    --bg-white: #FFFFFF;
+    --bg-light: #F8F9FA;
+    --text-dark: #1A1A1A;
+    --text-muted: #666666;
+    --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    --section-padding: 120px 8%;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --cloud-white: rgba(255, 255, 255, 0.8);
+    --sunset-start: #ff7e5f;
+    --sunset-end: #feb47b;
+    --sea-start: #003366;
+    --sea-end: #00A9E0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-dark);
+    background-color: var(--bg-white);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition);
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* --- Layout Utility --- */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section {
+    padding: var(--section-padding);
+}
+
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.reveal-on-scroll.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Cloud Transition Effects --- */
+.cloud-container {
+    position: absolute;
+    width: 100%;
+    height: 300px;
+    left: 0;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+}
+
+.cloud-divider-top {
+    top: -150px;
+}
+
+.cloud-divider-bottom {
+    bottom: -150px;
+}
+
+.cloud-particle {
+    position: absolute;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    filter: blur(60px);
+    transition: transform 1.5s ease-out, opacity 1.5s ease-out;
+    opacity: 0;
+    z-index: -1;
+}
+
+.revealed .cloud-particle {
+    opacity: 0.8;
+}
+
+/* Cloud Floating Animations */
+@keyframes cloudFloat {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(30px, -20px) scale(1.1);
+    }
+
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+}
+
+
+.cloud-slow {
+    animation: cloudFloat 15s ease-in-out infinite;
+}
+
+.cloud-medium {
+    animation: cloudFloat 10s ease-in-out infinite;
+}
+
+.cloud-fast {
+    animation: cloudFloat 7s ease-in-out infinite;
+}
+
+#services {
+    background:
+        linear-gradient(rgba(10, 10, 10, 0.2), rgba(10, 10, 10, 0.2)),
+        url('oil_rig2.jpeg') no-repeat center center/cover;
+    background-attachment: fixed;
+    color: white;
+}
+
+/* --- Header --- */
+/* --- Floating White Navbar --- */
+header {
+    position: fixed;
+    top: 25px;
+    /* Aligned with hero frame padding */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1300px;
+    padding: 15px 40px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 50px;
+    z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+header.scrolled {
+    top: 0;
+    width: 100%;
+    max-width: none;
+    border-radius: 0;
+    padding: 15px 5%;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+    transition: var(--transition);
+}
+
+header.scrolled .logo img {
+    height: 40px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 35px;
+}
+
+.nav-links a {
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--primary-navy);
+    /* Deep blue text for white bar */
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    position: relative;
+    transition: var(--transition);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-teal);
+    transition: var(--transition);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-links a:hover {
+    color: var(--accent-teal) !important;
+}
+
+/* --- Dynamic Scroll Blend Overlay --- */
+.scroll-blend-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    /* Above video/images, below text */
+    pointer-events: none;
+    opacity: 0.6;
+    background: linear-gradient(135deg, var(--sunset-start), var(--sunset-end));
+    transition: background 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    mix-blend-mode: soft-light;
+}
+
+/* --- Premium Framed Hero Design --- */
+.hero-frame {
+    height: 100vh;
+    padding: 25px;
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+}
+
+.frame-border {
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 40px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+}
+
+
+.hero-wrap {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    /* Enhancing perceived video quality */
+    filter: contrast(1.1) brightness(1.05) saturate(1.1);
+    -webkit-filter: contrast(1.1) brightness(1.05) saturate(1.1);
+    image-rendering: -webkit-optimize-contrast;
+}
+
+.hero-glass-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 45%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 2;
+    transition: background 0.5s ease;
+}
+
+.hero-content-premium {
+    position: relative;
+    z-index: 10;
+    padding-left: 10%;
+    width: 100%;
+    color: white;
+}
+
+
+.hero-title {
+    font-size: clamp(50px, 12vw, 150px);
+    line-height: 0.85;
+    margin-bottom: 35px;
+    display: flex;
+    flex-direction: column;
+    font-weight: 900;
+}
+
+.title-masked {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.6);
+    letter-spacing: -0.05em;
+}
+
+.title-solid {
+    color: #fff;
+    margin-left: max(60px, 8vw);
+}
+
+.hero-desc {
+    max-width: 480px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 50px;
+}
+
+.learn-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    padding: 0 0 8px 0;
+    border-bottom: 2px solid var(--accent-teal);
+    transition: var(--transition);
+}
+
+.learn-more:hover {
+    gap: 25px;
+    color: var(--accent-teal);
+}
+
+
+
+.btn {
+    display: inline-block;
+    padding: 20px 50px;
+    border-radius: 50px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 13px;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background-color: var(--primary-navy);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-cerulean);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 51, 102, 0.2);
+}
+
+.btn-cta {
+    background-color: var(--accent-teal);
+    color: white;
+}
+
+.btn-cta::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 20%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: rotate(30deg);
+    transition: none;
+}
+
+.btn-cta:hover::after {
+    left: 130%;
+    transition: all 0.6s ease;
+}
+
+.btn-cta:hover {
+    background-color: var(--secondary-cerulean);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 181, 181, 0.3);
+}
+
+/* --- Premium About Glass Template --- */
+.about-template {
+    min-height: 100vh;
+    /* Rich, deep sunset saturation directly in the background */
+    background:
+        linear-gradient(135deg, rgba(255, 126, 95, 0.6) 0%, rgba(40, 20, 10, 0.7) 60%),
+        url('oil_rig2.jpeg') no-repeat center center/cover;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 100px 5%;
+}
+
+.about-template::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Powerful golden hour focal points and deep warm wash */
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255, 126, 95, 0.6) 0%, transparent 60%),
+        radial-gradient(circle at 80% 10%, rgba(254, 180, 123, 0.3) 0%, transparent 40%),
+        linear-gradient(to bottom,
+            rgba(255, 78, 95, 0.5) 0%,
+            rgba(255, 126, 95, 0.4) 30%,
+            rgba(0, 51, 102, 0.3) 100%);
+    z-index: 1;
+}
+
+.about-glass-wrap {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.about-glass-card {
+    width: 90%;
+    max-width: 1100px;
+    height: 650px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(45px);
+    -webkit-backdrop-filter: blur(45px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 40px;
+    padding: 80px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3);
+}
+
+.about-glass-content {
+    max-width: 600px;
+    color: white;
+}
+
+.about-badge {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 30px;
+    display: block;
+}
+
+.about-title-serif {
+    font-family: 'Montserrat', serif;
+    /* Falling back to Montserrat but styled elegantly */
+    font-size: clamp(40px, 5vw, 70px);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 30px;
+    letter-spacing: -0.01em;
+    text-transform: capitalize;
+}
+
+.about-text-p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 25px;
+}
+
+.btn-glass {
+    background: #fff;
+    color: #000;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.btn-glass:hover {
+    background: var(--accent-teal);
+    color: #fff;
+    transform: translateY(-5px);
+}
+
+.about-decorative-icon {
+    position: absolute;
+    right: -50px;
+    bottom: -50px;
+    z-index: -1;
+}
+
+/* --- Services Grid --- */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.service-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    padding: 50px 40px;
+    border-radius: 20px;
+    transition: var(--transition);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+}
+
+.service-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0, 51, 102, 0.1);
+    background: white;
+    border-color: var(--secondary-cerulean);
+}
+
+.service-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    transition: var(--transition);
+}
+
+.service-card:hover .service-img {
+    transform: scale(1.05);
+}
+
+.service-card h3 {
+    margin-bottom: 15px;
+    color: var(--primary-navy);
+}
+
+.service-card p {
+    color: var(--primary-navy);
+    opacity: 0.85;
+    line-height: 1.6;
+}
+
+/* --- Symmetrical Single Row Product Grid --- */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* --- 3D Horizontal Carousel --- */
+/* --- Sliding Loop Carousel --- */
+.carousel-section {
+    position: relative;
+    padding: 80px 0;
+    overflow: hidden;
+    /* Very light overlay for maximum image clarity */
+    background:
+        linear-gradient(rgba(10, 10, 10, 0.2), rgba(10, 10, 10, 0.2)),
+        url('oil_rig2.jpeg') no-repeat center center/cover;
+    background-attachment: fixed;
+}
+
+.carousel-container {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 30px;
+    width: max-content;
+    animation: slideLoop 40s linear infinite;
+    padding: 20px 0;
+}
+
+.carousel-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes slideLoop {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        /* Move by the width of 5 items + 5 gaps */
+        /* Each item is 320px + 30px gap = 350px. 5 items = 1750px */
+        transform: translateX(calc(-320px * 5 - 30px * 5));
+    }
+}
+
+.carousel-item {
+    width: 320px;
+    height: 450px;
+    flex: 0 0 320px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+}
+
+.carousel-item:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.9);
+    transition: filter 0.4s ease;
+}
+
+.carousel-item:hover img {
+    filter: brightness(1.1);
+}
+
+.carousel-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 30px;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 100%);
+    color: var(--primary-navy);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.carousel-item:hover .carousel-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.carousel-content h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.carousel-content p {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+}
+
+/* --- Contact Section --- */
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 35px 30px;
+    border: 1px solid rgba(0, 51, 102, 0.1);
+    border-radius: 18px;
+    font-family: inherit;
+    font-size: 17px;
+    background: white;
+    transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-teal);
+    box-shadow: 0 0 0 4px rgba(0, 181, 181, 0.05);
+}
+
+.contact-details {
+    border-left: 2px solid var(--accent-teal);
+    padding-left: 40px;
+}
+
+.contact-item {
+    margin-bottom: 30px;
+}
+
+.contact-item h4 {
+    color: var(--primary-navy);
+    margin-bottom: 5px;
+}
+
+
+/* --- Responsive --- */
+
+@media (max-width: 1024px) {
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+
+    .about-grid,
+    .services-grid,
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+
+    .bento-grid {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        padding: 20px;
+    }
+
+    .logo {
+        margin-top: 20px;
+        margin-left: 20px;
+    }
+
+    .about-glass-card {
+        height: auto;
+        padding: 50px 30px;
+        border-radius: 30px;
+    }
+
+    .btn-glass {
+        margin-top: 30px;
+        margin-bottom: 20px;
+        /* Moves it up from the bottom edge */
+    }
+
+    .contact-details {
+        border-left: none;
+        padding-left: 0;
+        text-align: left;
+    }
+
+    .container {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .contact-container {
+        gap: 40px;
+        padding-left: 0;
+    }
+
+    .contact-container h2,
+    .contact-item,
+    .contact-item h4,
+    .contact-item p {
+        text-align: left !important;
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+    .section {
+        padding: 80px 15px;
+        /* Minimum horizontal padding */
+    }
+
+    .about-glass-card {
+        height: auto;
+        padding: 50px 15px;
+        /* Minimized padding for maximum left reach */
+        border-radius: 20px;
+        text-align: left;
+        width: 100%;
+        /* Ensure it uses full width */
+    }
+
+    .about-glass-content {
+        text-align: left;
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+
+
+    .nav-links {
+        display: none;
+        /* Mobile menu could be added here */
+    }
+}
