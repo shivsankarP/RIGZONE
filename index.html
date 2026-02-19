@@ -16,7 +16,12 @@
             <a href="#home"><img src="logo.png" alt="RIGZONE Logo"></a>
         </div>
         <nav>
-            <ul class="nav-links">
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
@@ -43,8 +48,7 @@
                                 <span class="title-masked">POWERING GLOBAL</span>
                                 <span class="title-solid">ENERGY</span>
                             </h1>
-                            <p class="hero-desc">Precisely engineered equipment and global supply chain solutions for
-                                the most demanding offshore environments.</p>
+                            <p class="hero-desc"></p>
                             <a href="#about" class="learn-more">Learn More <svg width="20" height="20"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -65,12 +69,7 @@
                     <div class="about-glass-content">
                         <span class="about-badge">Company Profile</span>
                         <h2 class="about-title-serif">Excellence in <br>Industrial Supply</h2>
-                        <p class="about-text-p"><strong>RIGZONE</strong> is a leading and reliable supplier in the Oil
-                            field industry,
-                            providing high-quality <strong>Pipes, fittings, flanges, valves, stud Bolts,
-                                Gaskets,</strong> and other marine industry related products.</p>
-                        <p class="about-text-p">Our dedicated staff utilized extensive industry knowledge to provide
-                            refined, personalized services of international specification standards.</p>
+
                         <a href="#services" class="btn btn-glass">Explore Expertise</a>
                     </div>
 
@@ -78,44 +77,12 @@
             </div>
         </section>
 
-        <!-- Stats Section -->
-        <section class="section" style="padding: 80px 8%; background: var(--primary-navy); color: white;">
-            <div class="container"
-                style="display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; gap: 30px;">
-                <div class="stat-item">
-                    <h2 class="stat-number" data-target="25"
-                        style="font-size: 3.5rem; color: var(--accent-teal); margin-bottom: 10px;">0</h2>
-                    <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.8;">Years
-                        Experience</p>
-                </div>
-                <div class="stat-item">
-                    <h2 class="stat-number" data-target="500"
-                        style="font-size: 3.5rem; color: var(--accent-teal); margin-bottom: 10px;">0</h2>
-                    <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.8;">Global
-                        Partners</p>
-                </div>
-                <div class="stat-item">
-                    <h2 class="stat-number" data-target="120"
-                        style="font-size: 3.5rem; color: var(--accent-teal); margin-bottom: 10px;">0</h2>
-                    <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.8;">Supply
-                        Routes</p>
-                </div>
-                <div class="stat-item">
-                    <h2 class="stat-number" data-target="24"
-                        style="font-size: 3.5rem; color: var(--accent-teal); margin-bottom: 10px;">0</h2>
-                    <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.8;">
-                        Technical Support</p>
-                </div>
-            </div>
-        </section>
+
 
         <!-- Services Section -->
         <section id="services" class="section reveal-on-scroll">
             <div class="container">
-                <div style="text-align: center; margin-bottom: 60px;">
-                    <h2 style="color: white;">Our Expertise</h2>
-                    <p style="color: rgba(255,255,255,0.7);">Advanced solutions for a complex industry.</p>
-                </div>
+
                 <div class="services-grid">
                     <div class="service-card reveal-on-scroll">
                         <img src="assets/gobal.jpg" alt="Global Logistics" class="service-img">
@@ -142,16 +109,12 @@
         <!-- Product Section -->
         <section id="products" class="section reveal-on-scroll">
             <div class="container">
-                <div style="margin-bottom: 70px; text-align: left;">
-                    <span
-                        style="display: inline-block; padding: 6px 15px; background: var(--accent-teal); color: white; border-radius: 4px; font-size: 10px; font-weight: 800; letter-spacing: 0.3em; margin-bottom: 20px; text-transform: uppercase;">Premium
-                        Inventory</span>
-                    <h2
-                        style="color: white; font-size: clamp(32px, 5vw, 55px); line-height: 1.1; margin-bottom: 20px; font-weight: 900; letter-spacing: -0.02em;">
-                        Precision <br><span style="color: var(--accent-teal);">engineered</span> components</h2>
-                    <p style="color: rgba(255,255,255,0.6); max-width: 500px; font-size: 14px; line-height: 1.8;">
-                        Supplying the most critical components for the energy sector, tested to survive the harshest
-                        offshore environments.</p>
+                <div class="product-header">
+                    <span class="product-badge">Premium Inventory</span>
+                    <h2 class="product-title">Precision <br><span style="color: var(--accent-teal);">engineered</span>
+                        components</h2>
+                    <p class="product-desc">Supplying the most critical components for the energy sector, tested to
+                        survive the harshest offshore environments.</p>
                 </div>
                 <div class="carousel-section">
                     <div class="atmospheric-smoke"></div>
