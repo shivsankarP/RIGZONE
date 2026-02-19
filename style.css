@@ -718,15 +718,72 @@ header.scrolled .logo img {
     display: flex;
     gap: 30px;
     width: max-content;
-    animation: slideLoop 40s linear infinite;
+    animation: slideLoopDesktop 40s linear infinite;
     padding: 20px 0;
+    /* No transition by default to avoid animation jitter for auto-loop */
+}
+
+.carousel-track.manual-control {
+    animation: none !important;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    color: white;
+    display: none;
+    /* Hidden on desktop view */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    transition: var(--transition);
+}
+
+.carousel-nav:hover {
+    background: var(--accent-teal);
+    border-color: var(--accent-teal);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-nav.prev {
+    left: 20px;
+}
+
+.carousel-nav.next {
+    right: 20px;
+}
+
+@media (max-width: 992px) {
+    .carousel-nav {
+        display: flex !important;
+        /* Visible only on mobile/tablet */
+        width: 45px;
+        height: 45px;
+    }
+
+    .carousel-nav.prev {
+        left: 10px;
+    }
+
+    .carousel-nav.next {
+        right: 10px;
+    }
 }
 
 .carousel-track:hover {
     animation-play-state: paused;
 }
 
-@keyframes slideLoop {
+@keyframes slideLoopDesktop {
     0% {
         transform: translateX(0);
     }
@@ -1105,7 +1162,7 @@ header.scrolled .logo img {
         flex: 0 0 260px;
     }
 
-    @keyframes slideLoop {
+    @keyframes slideLoopMobile {
         0% {
             transform: translateX(0);
         }
@@ -1113,6 +1170,15 @@ header.scrolled .logo img {
         100% {
             transform: translateX(calc(-260px * 5 - 30px * 5));
         }
+    }
+
+    /* Apply mobile animation */
+    .carousel-track {
+        animation: slideLoopMobile 30s linear infinite !important;
+    }
+
+    .carousel-track.manual-control {
+        animation: none !important;
     }
 
     /* --- Contact Mobile --- */

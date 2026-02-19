@@ -217,3 +217,65 @@ if (menuToggle && navLinks) {
         });
     });
 }
+// Product Carousel Manual Navigation
+const track = document.getElementById('carouselTrack');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+if (track && prevBtn && nextBtn) {
+    let currentPosition = 0;
+    const items = track.querySelectorAll('.carousel-item');
+    const totalItems = items.length / 2; // Since we have duplicated items
+
+    // Calculate item width dynamically
+    const getItemWidth = () => {
+        const style = window.getComputedStyle(items[0]);
+        const width = parseFloat(style.width);
+        const gap = 30; // Matches CSS gap
+        return width + gap;
+    };
+
+    const moveCarousel = (direction) => {
+        // Stop the CSS animation on first manual move
+        track.classList.add('manual-control');
+
+        const itemFullWidth = getItemWidth();
+
+        if (direction === 'next') {
+            currentPosition -= itemFullWidth;
+        } else {
+            currentPosition += itemFullWidth;
+        }
+
+        // Infinite loop logic
+        const maxScroll = -(itemFullWidth * totalItems);
+
+        if (currentPosition < maxScroll) {
+            // Instantly jump back to start (simulated)
+            track.style.transition = 'none';
+            currentPosition = 0;
+            track.style.transform = `translateX(${currentPosition}px)`;
+            // Small delay to allow transition after jump
+            setTimeout(() => {
+                track.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+                currentPosition -= itemFullWidth;
+                track.style.transform = `translateX(${currentPosition}px)`;
+            }, 10);
+        } else if (currentPosition > 0) {
+            // Jump to second half
+            track.style.transition = 'none';
+            currentPosition = maxScroll;
+            track.style.transform = `translateX(${currentPosition}px)`;
+            setTimeout(() => {
+                track.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+                currentPosition += itemFullWidth;
+                track.style.transform = `translateX(${currentPosition}px)`;
+            }, 10);
+        } else {
+            track.style.transform = `translateX(${currentPosition}px)`;
+        }
+    };
+
+    nextBtn.addEventListener('click', () => moveCarousel('next'));
+    prevBtn.addEventListener('click', () => moveCarousel('prev'));
+}
