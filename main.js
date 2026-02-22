@@ -279,3 +279,37 @@ if (track && prevBtn && nextBtn) {
     nextBtn.addEventListener('click', () => moveCarousel('next'));
     prevBtn.addEventListener('click', () => moveCarousel('prev'));
 }
+
+// Card Manual Close/Active Logic for Mobile
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.service-card, .carousel-item');
+    const closeBtns = document.querySelectorAll('.card-close');
+
+    cards.forEach(card => {
+        card.addEventListener('click', function (e) {
+            // Apply logic only if we're on a mobile/tablet viewport
+            if (window.innerWidth <= 992) {
+                // If the click was on the close button, the specific button listener handles it
+                if (e.target.closest('.card-close')) return;
+
+                // Deactivate other cards for a cleaner experience
+                cards.forEach(c => {
+                    if (c !== card) c.classList.remove('card-active');
+                });
+
+                // Toggle active state for current card
+                this.classList.toggle('card-active');
+            }
+        });
+    });
+
+    closeBtns.forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.stopPropagation(); // Prevent the card click from immediately re-opening it
+            const card = this.closest('.service-card, .carousel-item');
+            if (card) {
+                card.classList.remove('card-active');
+            }
+        });
+    });
+});

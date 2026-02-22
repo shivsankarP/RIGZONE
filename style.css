@@ -617,24 +617,44 @@ header.scrolled .logo img {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
 }
 
-.service-card:hover {
+.service-card:hover,
+.service-card.card-active {
     transform: translateY(-15px);
     box-shadow: 0 20px 40px rgba(0, 51, 102, 0.1);
     background: white;
     border-color: var(--secondary-cerulean);
 }
 
-.service-img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 25px;
+.service-card:hover .service-img,
+.service-card.card-active .service-img {
+    transform: scale(1.05);
+}
+
+/* --- Card Close Button --- */
+.card-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background: var(--primary-navy);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: none;
+    /* Hidden by default */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    z-index: 100;
+    line-height: 1;
     transition: var(--transition);
 }
 
-.service-card:hover .service-img {
-    transform: scale(1.05);
+.card-close:hover {
+    background: var(--accent-teal);
+    transform: scale(1.1);
 }
 
 .service-card h3 {
@@ -803,7 +823,8 @@ header.scrolled .logo img {
     cursor: pointer;
 }
 
-.carousel-item:hover {
+.carousel-item:hover,
+.carousel-item.card-active {
     transform: translateY(-10px) scale(1.02);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
 }
@@ -816,7 +837,8 @@ header.scrolled .logo img {
     transition: filter 0.4s ease;
 }
 
-.carousel-item:hover img {
+.carousel-item:hover img,
+.carousel-item.card-active img {
     filter: brightness(1.1);
 }
 
@@ -833,7 +855,8 @@ header.scrolled .logo img {
     transition: all 0.4s ease;
 }
 
-.carousel-item:hover .carousel-content {
+.carousel-item:hover .carousel-content,
+.carousel-item.card-active .carousel-content {
     transform: translateY(0);
     opacity: 1;
 }
@@ -1316,6 +1339,24 @@ header.scrolled .logo img {
 
     .map-img {
         object-position: center !important;
+    }
+
+    /* Show Close Button on Active Cards in Mobile */
+    .service-card.card-active .card-close,
+    .carousel-item.card-active .card-close {
+        display: flex;
+    }
+
+    .card-close {
+        top: 10px;
+        right: 10px;
+        width: 32px;
+        height: 32px;
+        font-size: 22px;
+        background: rgba(0, 51, 102, 0.9);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
 }
