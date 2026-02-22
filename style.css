@@ -986,35 +986,33 @@ header.scrolled .logo img {
 
     /* --- Header Mobile --- */
     header {
-        top: 25px !important;
-        /* Sitting perfectly inside the frame border */
-        left: 20px !important;
-        right: 20px !important;
+        top: 15px !important;
+        left: 10px !important;
+        right: 10px !important;
         width: auto !important;
         max-width: none !important;
         transform: none !important;
         padding: 0 15px !important;
         border-radius: 40px !important;
-        height: 75px !important;
-        min-height: 75px !important;
+        height: 70px !important;
+        min-height: 70px !important;
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
         box-sizing: border-box !important;
         margin: 0 !important;
         z-index: 2000 !important;
-        background: rgba(255, 255, 255, 0.95) !important;
+        background: rgba(255, 255, 255, 0.98) !important;
         backdrop-filter: blur(10px) !important;
     }
 
     header.scrolled {
-        top: 10px !important;
-        /* Slightly more organic than sticking to 0 */
-        left: 10px !important;
-        right: 10px !important;
-        height: 75px !important;
+        top: 5px !important;
+        left: 5px !important;
+        right: 5px !important;
+        height: 65px !important;
         width: auto !important;
-        border-radius: 40px !important;
+        border-radius: 35px !important;
         padding: 0 15px !important;
     }
 
@@ -1082,12 +1080,11 @@ header.scrolled .logo img {
 
     .hero-glass-overlay {
         width: 50% !important;
-        /* Perfect 50/50 split like desktop */
         height: 100%;
         background: rgba(0, 0, 0, 0.45);
-        border-right: 2px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
     }
 
     .hero-content-premium {
@@ -1095,10 +1092,8 @@ header.scrolled .logo img {
         top: 0;
         left: 0;
         width: 50%;
-        /* Match glass overlay width */
         height: 100%;
         padding: 0 15px;
-        /* Tighter padding for 50% width */
         text-align: left;
         display: flex;
         flex-direction: column;
@@ -1108,36 +1103,41 @@ header.scrolled .logo img {
     }
 
     .hero-title {
-        font-size: clamp(22px, 9vw, 36px);
-        /* Further scaled to fit 50% sidebar */
+        font-size: clamp(22px, 8vw, 36px);
         align-items: flex-start;
         text-align: left;
         width: 100%;
-        line-height: 0.95;
-        margin-bottom: 25px;
+        line-height: 1;
+        margin-bottom: 20px;
         display: flex;
         flex-direction: column;
         color: white;
     }
 
     .title-masked {
-        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
-        letter-spacing: -0.01em;
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.7);
+        letter-spacing: -0.02em;
         white-space: normal !important;
     }
 
     .title-solid {
-        margin-top: 8px !important;
-        margin-left: 15px !important;
-        /* Tightened for 50% width */
+        margin-top: 5px !important;
+        margin-left: 10px !important;
+        letter-spacing: 0.05em;
     }
 
     .hero-desc {
         font-size: 11px;
         line-height: 1.5;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
         width: 100%;
         color: rgba(255, 255, 255, 0.8);
+        text-align: left;
+    }
+
+    .learn-more {
+        margin: 0;
+        justify-content: flex-start;
     }
 
     /* --- Services Section Mobile --- */
@@ -1193,9 +1193,11 @@ header.scrolled .logo img {
     }
 
     .btn-glass {
-        margin-top: 15px;
-        padding: 12px 30px;
-        width: auto;
+        margin: 25px auto 0;
+        padding: 14px 40px;
+        width: 100%;
+        max-width: 280px;
+        display: block;
     }
 
 
@@ -1265,9 +1267,14 @@ header.scrolled .logo img {
 
     .form-group input,
     .form-group textarea {
-        padding: 18px 20px;
-        font-size: 15px;
+        padding: 15px 20px;
+        font-size: 16px;
         border-radius: 12px;
+    }
+
+    .btn-cta {
+        width: 100%;
+        padding: 18px;
     }
 
     /* --- Navigation Mobile --- */
@@ -1328,23 +1335,30 @@ header.scrolled .logo img {
 
     .stats-grid {
         display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 30px 5px !important;
+        grid-template-columns: 1fr !important;
+        /* Stack for better 3-item alignment */
+        gap: 40px !important;
         width: 100% !important;
         margin: 0 !important;
+        text-align: center !important;
+    }
+
+    .stat-item {
+        padding: 0 20px;
     }
 
     .stat-number {
-        font-size: 1.8rem !important;
-        margin-bottom: 5px !important;
+        font-size: 2.2rem !important;
+        margin-bottom: 8px !important;
     }
 
     .stat-item p {
-        font-size: 9px !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
         white-space: normal !important;
-        /* Allow wrapping to prevent overflow */
-        line-height: 1.3 !important;
-        padding: 0 5px;
+        line-height: 1.4 !important;
+        padding: 0 10px;
+        color: var(--primary-navy) !important;
     }
 
     /* --- Map Mobile adjustments --- */

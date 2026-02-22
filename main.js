@@ -122,8 +122,9 @@ function setupParallaxAndBlend() {
             glassOverlay.style.background = `rgba(${r}, ${g}, ${b}, ${a})`;
         }
 
-        // Parallax
-        if (heroBg) heroBg.style.transform = `scale(1.1) translateY(${scrolled * 0.2}px)`;
+        // Parallax - Increased scale for mobile to "zoom in"
+        const scale = window.innerWidth < 992 ? 1.4 : 1.1;
+        if (heroBg) heroBg.style.transform = `scale(${scale}) translateY(${scrolled * 0.2}px)`;
         document.querySelectorAll('.cloud-particle').forEach((p, i) => {
             const speed = 0.05 + (i % 3) * 0.05;
             p.style.transform = `translateY(${scrolled * speed}px)`;
