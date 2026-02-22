@@ -1,51 +1,20 @@
-// Sticky Header Logic
-const header = document.getElementById('header');
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
-    }
-});
+// --- Consolidated Website Logic ---
 
-// Scroll Reveal Animation using Intersection Observer
+// 1. Core Observers & Global State
 const observerOptions = {
     threshold: 0.05,
     rootMargin: '0px 0px -50px 0px'
 };
 
-const observer = new IntersectionObserver((entries) => {
+const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('revealed');
-            observer.unobserve(entry.target);
+            revealObserver.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
-// Stat Counter Logic
-function animateStats() {
-    const stats = document.querySelectorAll('.stat-number');
-    stats.forEach(stat => {
-        const target = parseInt(stat.getAttribute('data-target'));
-        const increment = target / 100;
-        let current = 0;
-
-        const updateCount = () => {
-            if (current < target) {
-                current += increment;
-                stat.innerText = Math.ceil(current) + (stat.getAttribute('data-target') === '24' ? '/7' : '+');
-                setTimeout(updateCount, 20);
-            } else {
-                stat.innerText = target + (stat.getAttribute('data-target') === '24' ? '/7' : '+');
-            }
-        };
-
-        updateCount();
-    });
-}
-
-// Stats Scroll Observer
 const statsObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -55,261 +24,279 @@ const statsObserver = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.5 });
 
-// Document ready
+// 2. Main Initialization
 document.addEventListener('DOMContentLoaded', () => {
-    createClouds(); // Initialize cloud effect
+    initEffects();
+    initInteractions();
 
-    // Add reveal class to elements
-    const revealElements = document.querySelectorAll('.reveal-on-scroll');
-    revealElements.forEach(el => {
-        observer.observe(el);
-    });
+    // Initial reveal elements
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObserver.observe(el));
 
-    // Observe stats section
-    const statsSection = document.querySelector('.stat-item')?.parentElement;
-    if (statsSection) {
-        statsObserver.observe(statsSection);
-    }
+    // Initial stats observer
+    const statsGrid = document.querySelector('.stats-grid');
+    if (statsGrid) statsObserver.observe(statsGrid);
 });
 
-// Cloud Effect Initialization
+// 3. Effect Initializers
+function initEffects() {
+    createClouds();
+    setupParallaxAndBlend();
+}
 
-// Cloud Effect Initialization
 function createClouds() {
     const cloudSections = document.querySelectorAll('.section');
     cloudSections.forEach(section => {
         const cloudContainer = document.createElement('div');
         cloudContainer.className = 'cloud-container cloud-divider-top';
-
-        for (let i = 0; i < 8; i++) { // Increased to 8 particles
+        for (let i = 0; i < 8; i++) {
             const particle = document.createElement('div');
             particle.className = `cloud-particle cloud-${['slow', 'medium', 'fast'][Math.floor(Math.random() * 3)]}`;
-
             const size = Math.random() * 200 + 150;
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             particle.style.left = `${Math.random() * 100}%`;
             particle.style.top = `${Math.random() * 100}%`;
-
             cloudContainer.appendChild(particle);
         }
-
         section.style.position = 'relative';
         section.appendChild(cloudContainer);
     });
 }
 
-// Color Blend Scroll Logic
-const blendBg = document.getElementById('blendBg');
-const aboutSection = document.getElementById('about');
-
-window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY;
-
-    // 1. Calculate transition progress (0 to 1) based on Hero height
-    const heroHeight = window.innerHeight;
-    let progress = scrolled / heroHeight;
-    progress = Math.min(1, Math.max(0, progress));
-
-    // 2. Update Blend Background Gradient
-    if (blendBg) {
-        // Calculate smooth transition between sunset and sea
-        // Fade out sunset as we move to About section
-        if (progress < 0.8) {
-            blendBg.style.background = `linear-gradient(135deg, var(--sunset-start), var(--sunset-end))`;
-            // Opacity peaks at transition point (0.5)
-            const sunsetOpacity = progress <= 0.5 ?
-                0.6 + (progress * 0.4) : // 0.6 to 1.0
-                1.0 - ((progress - 0.5) * 2); // 1.0 to 0.4
-            blendBg.style.opacity = Math.max(0.4, sunsetOpacity);
-        } else {
-            blendBg.style.background = `linear-gradient(135deg, var(--sea-start), var(--sea-end))`;
-            blendBg.style.opacity = 0.4 + (progress - 0.8) * 2;
-        }
-    }
-
-    // 3. Update Hero Glass Overlay with smooth color interpolation
-    const glassOverlay = document.querySelector('.hero-glass-overlay');
-    if (glassOverlay) {
-        // Interpolate between orange and blueish colors
-        const r = Math.round(255 - (progress * 255));
-        const g = Math.round(126 - (progress * 75));
-        const b = Math.round(95 + (progress * 7));
-        const a = 0.1 + (progress * 0.5);
-        glassOverlay.style.background = `rgba(${r}, ${g}, ${b}, ${a})`;
-    }
-
-    // Hero Parallax (Already existing but keeping it integrated)
-    const heroBg = document.querySelector('.hero-bg');
-    if (heroBg) {
-        heroBg.style.transform = `scale(1.1) translateY(${scrolled * 0.2}px)`;
-    }
-
-    // Cloud Parallax
-    const particles = document.querySelectorAll('.cloud-particle');
-    particles.forEach((particle, index) => {
-        const speed = 0.05 + (index % 3) * 0.05;
-        particle.style.transform = `translateY(${scrolled * speed}px)`;
+function animateStats() {
+    const stats = document.querySelectorAll('.stat-number');
+    stats.forEach(stat => {
+        const target = parseInt(stat.getAttribute('data-target'));
+        const increment = target / 100;
+        let current = 0;
+        const updateCount = () => {
+            if (current < target) {
+                current += increment;
+                stat.innerText = Math.ceil(current) + (stat.getAttribute('data-target') === '24' ? '/7' : '+');
+                setTimeout(updateCount, 20);
+            } else {
+                stat.innerText = target + (stat.getAttribute('data-target') === '24' ? '/7' : '+');
+            }
+        };
+        updateCount();
     });
-});
+}
 
-// Smooth scroll for nav links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth'
+function setupParallaxAndBlend() {
+    const headerEl = document.getElementById('header');
+    const blendBg = document.getElementById('blendBg');
+    const heroBg = document.querySelector('.hero-bg');
+    const glassOverlay = document.querySelector('.hero-glass-overlay');
+
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+
+        // Header
+        if (headerEl) {
+            if (scrolled > 50) headerEl.classList.add('scrolled');
+            else headerEl.classList.remove('scrolled');
+        }
+
+        // Hero Progress
+        const heroHeight = window.innerHeight;
+        let progress = Math.min(1, Math.max(0, scrolled / heroHeight));
+
+        // Blend Background
+        if (blendBg) {
+            if (progress < 0.8) {
+                blendBg.style.background = `linear-gradient(135deg, var(--sunset-start), var(--sunset-end))`;
+                const sunsetOpacity = progress <= 0.5 ? 0.6 + (progress * 0.4) : 1.0 - ((progress - 0.5) * 2);
+                blendBg.style.opacity = Math.max(0.4, sunsetOpacity);
+            } else {
+                blendBg.style.background = `linear-gradient(135deg, var(--sea-start), var(--sea-end))`;
+                blendBg.style.opacity = 0.4 + (progress - 0.8) * 2;
+            }
+        }
+
+        // Hero Glass Interpolation
+        if (glassOverlay) {
+            const r = Math.round(255 - (progress * 255));
+            const g = Math.round(126 - (progress * 75));
+            const b = Math.round(95 + (progress * 7));
+            const a = 0.1 + (progress * 0.5);
+            glassOverlay.style.background = `rgba(${r}, ${g}, ${b}, ${a})`;
+        }
+
+        // Parallax
+        if (heroBg) heroBg.style.transform = `scale(1.1) translateY(${scrolled * 0.2}px)`;
+        document.querySelectorAll('.cloud-particle').forEach((p, i) => {
+            const speed = 0.05 + (i % 3) * 0.05;
+            p.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+    });
+}
+
+// 4. Interaction Engine
+function initInteractions() {
+    // --- Smooth Scroll ---
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.onclick = function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            const target = document.querySelector(targetId);
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+        };
+    });
+
+    // --- Contact Form ---
+    const contactForm = document.querySelector('.contact-form');
+    if (contactForm) {
+        contactForm.onsubmit = function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            const original = btn.innerText;
+            btn.innerText = 'Sending...';
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.innerText = 'Inquiry Sent!';
+                this.reset();
+                setTimeout(() => {
+                    btn.innerText = original;
+                    btn.disabled = false;
+                }, 3000);
+            }, 1500);
+        };
+    }
+
+    // --- Mobile Menu ---
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    if (menuToggle && navLinks) {
+        menuToggle.onclick = (e) => {
+            e.stopPropagation();
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        };
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.onclick = () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            };
+        });
+    }
+
+    // --- Product Carousel ---
+    const track = document.getElementById('carouselTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentPosition = 0;
+
+    const updateCarouselState = () => {
+        if (!track) return;
+        const hasActiveCard = document.querySelector('.card-active');
+        if (hasActiveCard) track.classList.add('paused');
+        else track.classList.remove('paused');
+    };
+
+    if (track && prevBtn && nextBtn) {
+        const items = track.querySelectorAll('.carousel-item');
+        const totalItems = items.length / 2;
+        const moveCarousel = (direction) => {
+            if (document.querySelector('.card-active')) return;
+            track.classList.add('manual-control');
+            const itemWidth = items[0].offsetWidth + 30;
+            if (direction === 'next') currentPosition -= itemWidth;
+            else currentPosition += itemWidth;
+
+            const maxScroll = -(itemWidth * totalItems);
+            if (currentPosition < maxScroll) {
+                track.style.transition = 'none';
+                currentPosition = 0;
+                track.style.transform = `translateX(${currentPosition}px)`;
+                setTimeout(() => {
+                    track.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+                    currentPosition -= itemWidth;
+                    track.style.transform = `translateX(${currentPosition}px)`;
+                }, 10);
+            } else if (currentPosition > 0) {
+                track.style.transition = 'none';
+                currentPosition = maxScroll;
+                track.style.transform = `translateX(${currentPosition}px)`;
+                setTimeout(() => {
+                    track.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+                    currentPosition += itemWidth;
+                    track.style.transform = `translateX(${currentPosition}px)`;
+                }, 10);
+            } else {
+                track.style.transform = `translateX(${currentPosition}px)`;
+            }
+        };
+        nextBtn.onclick = () => moveCarousel('next');
+        prevBtn.onclick = () => moveCarousel('prev');
+    }
+
+    // --- BULLETPROOF CARD LOGIC ---
+
+    // 1. Direct Listeners for Immediate Feedback
+    document.querySelectorAll('.service-card, .carousel-item').forEach(card => {
+        const closeBtn = card.querySelector('.card-close');
+
+        // Handle Close Button specifically
+        if (closeBtn) {
+            closeBtn.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                card.classList.remove('card-active');
+                updateCarouselState();
+            });
+            // Also handle click just in case mousedown is skipped
+            closeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                card.classList.remove('card-active');
+                updateCarouselState();
             });
         }
-    });
-});
 
-// Contact Form Logic
-const contactForm = document.querySelector('.contact-form');
-if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const submitBtn = contactForm.querySelector('button');
-        const originalText = submitBtn.innerText;
+        // Handle Card Click
+        card.addEventListener('click', (e) => {
+            // If we clicked the close button, ignore
+            if (e.target.closest('.card-close')) return;
 
-        // Simple validation feedback
-        submitBtn.innerText = 'Sending...';
-        submitBtn.disabled = true;
-
-        setTimeout(() => {
-            submitBtn.innerText = 'Inquiry Sent!';
-            submitBtn.style.background = 'var(--secondary-cerulean)';
-            contactForm.reset();
-
-            setTimeout(() => {
-                submitBtn.innerText = originalText;
-                submitBtn.style.background = '';
-                submitBtn.disabled = false;
-            }, 3000);
-        }, 1500);
-    });
-}
-
-// Full view check for stats section
-const statsSectionCheck = document.querySelector('.stat-item')?.parentElement;
-if (statsSectionCheck) {
-    statsObserver.observe(statsSectionCheck);
-}
-
-// Mobile Menu Toggle
-const menuToggle = document.getElementById('menuToggle');
-const navLinks = document.getElementById('navLinks');
-
-if (menuToggle && navLinks) {
-    menuToggle.addEventListener('click', () => {
-        menuToggle.classList.toggle('active');
-        navLinks.classList.toggle('active');
+            if (card.classList.contains('card-active')) {
+                // Clicking an open card closes it
+                card.classList.remove('card-active');
+            } else {
+                // Open this card, close others
+                document.querySelectorAll('.card-active').forEach(c => c.classList.remove('card-active'));
+                card.classList.add('card-active');
+            }
+            updateCarouselState();
+        });
     });
 
-    // Close menu when a link is clicked
-    const links = navLinks.querySelectorAll('a');
-    links.forEach(link => {
-        link.addEventListener('click', () => {
+    // 2. Global "Outside Click" listener
+    document.addEventListener('click', (e) => {
+        const target = e.target;
+        const activeCard = document.querySelector('.card-active');
+
+        if (activeCard && !target.closest('.service-card, .carousel-item')) {
+            activeCard.classList.remove('card-active');
+            updateCarouselState();
+        }
+
+        // Mobile Menu fallback
+        if (navLinks && navLinks.classList.contains('active') && !target.closest('#navLinks') && !target.closest('#menuToggle')) {
             menuToggle.classList.remove('active');
             navLinks.classList.remove('active');
-        });
+        }
+    });
+
+    // 3. ESC Key Support
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.card-active').forEach(c => c.classList.remove('card-active'));
+            if (navLinks) {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+            updateCarouselState();
+        }
     });
 }
-// Product Carousel Manual Navigation
-const track = document.getElementById('carouselTrack');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-
-if (track && prevBtn && nextBtn) {
-    let currentPosition = 0;
-    const items = track.querySelectorAll('.carousel-item');
-    const totalItems = items.length / 2; // Since we have duplicated items
-
-    // Calculate item width dynamically
-    const getItemWidth = () => {
-        const style = window.getComputedStyle(items[0]);
-        const width = parseFloat(style.width);
-        const gap = 30; // Matches CSS gap
-        return width + gap;
-    };
-
-    const moveCarousel = (direction) => {
-        // Stop the CSS animation on first manual move
-        track.classList.add('manual-control');
-
-        const itemFullWidth = getItemWidth();
-
-        if (direction === 'next') {
-            currentPosition -= itemFullWidth;
-        } else {
-            currentPosition += itemFullWidth;
-        }
-
-        // Infinite loop logic
-        const maxScroll = -(itemFullWidth * totalItems);
-
-        if (currentPosition < maxScroll) {
-            // Instantly jump back to start (simulated)
-            track.style.transition = 'none';
-            currentPosition = 0;
-            track.style.transform = `translateX(${currentPosition}px)`;
-            // Small delay to allow transition after jump
-            setTimeout(() => {
-                track.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
-                currentPosition -= itemFullWidth;
-                track.style.transform = `translateX(${currentPosition}px)`;
-            }, 10);
-        } else if (currentPosition > 0) {
-            // Jump to second half
-            track.style.transition = 'none';
-            currentPosition = maxScroll;
-            track.style.transform = `translateX(${currentPosition}px)`;
-            setTimeout(() => {
-                track.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
-                currentPosition += itemFullWidth;
-                track.style.transform = `translateX(${currentPosition}px)`;
-            }, 10);
-        } else {
-            track.style.transform = `translateX(${currentPosition}px)`;
-        }
-    };
-
-    nextBtn.addEventListener('click', () => moveCarousel('next'));
-    prevBtn.addEventListener('click', () => moveCarousel('prev'));
-}
-
-// Card Manual Close/Active Logic for Mobile
-document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.service-card, .carousel-item');
-    const closeBtns = document.querySelectorAll('.card-close');
-
-    cards.forEach(card => {
-        card.addEventListener('click', function (e) {
-            // Apply logic only if we're on a mobile/tablet viewport
-            if (window.innerWidth <= 992) {
-                // If the click was on the close button, the specific button listener handles it
-                if (e.target.closest('.card-close')) return;
-
-                // Deactivate other cards for a cleaner experience
-                cards.forEach(c => {
-                    if (c !== card) c.classList.remove('card-active');
-                });
-
-                // Toggle active state for current card
-                this.classList.toggle('card-active');
-            }
-        });
-    });
-
-    closeBtns.forEach(btn => {
-        btn.addEventListener('click', function (e) {
-            e.stopPropagation(); // Prevent the card click from immediately re-opening it
-            const card = this.closest('.service-card, .carousel-item');
-            if (card) {
-                card.classList.remove('card-active');
-            }
-        });
-    });
-});
