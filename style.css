@@ -636,6 +636,15 @@ header.scrolled .logo img {
     transform: scale(1.05);
 }
 
+.service-img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    transition: var(--transition);
+}
+
 /* --- Card Close Button --- */
 .card-close {
     position: absolute;
@@ -938,6 +947,38 @@ header.scrolled .logo img {
 .contact-item h4 {
     color: var(--primary-navy);
     margin-bottom: 5px;
+}
+
+.whatsapp-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.whatsapp-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #25D366;
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    width: fit-content;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+}
+
+.whatsapp-link:hover {
+    background: #128C7E;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(18, 140, 126, 0.3);
+}
+
+.whatsapp-link svg {
+    flex-shrink: 0;
 }
 
 .map-wrap {
@@ -1376,10 +1417,21 @@ header.scrolled .logo img {
         object-position: center !important;
     }
 
-    /* Show Close Button on Active Cards in Mobile */
     .service-card.card-active .card-close,
     .carousel-item.card-active .card-close {
         display: flex;
+    }
+
+    .whatsapp-contacts {
+        align-items: center;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .whatsapp-link {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
     }
 
     .card-close {
